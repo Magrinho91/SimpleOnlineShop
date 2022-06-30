@@ -1,4 +1,5 @@
-package com.example.SimpleOnlineShop.User;
+package com.example.SimpleOnlineShop.user;
+
 
 import lombok.RequiredArgsConstructor;
 
