@@ -23,4 +23,9 @@ public class UserController {
     public void registerUser(@RequestBody final UserModelDto userModelDto) {
         userService.registerUser(userModelDto);
     }
+
+    @GetMapping("loggedAccount")
+    public UserModel getLoggedAccount (){
+        return userService.getLoggedAccount();
+    }
 }

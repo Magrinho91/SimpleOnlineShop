@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserModelDto {
 
-    private UserRole role;
+    private String role;
     private String login;
     private String password;
     private String firstName;

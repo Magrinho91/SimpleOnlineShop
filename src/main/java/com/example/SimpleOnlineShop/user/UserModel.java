@@ -44,6 +44,7 @@ public class UserModel implements UserDetails {
     @Column
     private String email;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
