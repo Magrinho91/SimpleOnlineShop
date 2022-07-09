@@ -1,5 +1,6 @@
 package com.example.SimpleOnlineShop.user;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController {
 
     @Autowired
