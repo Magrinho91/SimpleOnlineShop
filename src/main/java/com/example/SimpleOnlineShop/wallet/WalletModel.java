@@ -22,5 +22,5 @@ public class WalletModel {
     private Long id;
 
     @Column
-    private Double capacity;
+    private Double moneyAmount;
 }

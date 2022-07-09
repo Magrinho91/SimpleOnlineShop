@@ -1,12 +1,13 @@
 package com.example.SimpleOnlineShop.category;
 
-import com.example.SimpleOnlineShop.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.SimpleOnlineShop.user.UserRole.UserRoleValues.ROLE_ADMIN;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,14 +22,14 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
+    @Secured(ROLE_ADMIN)
     @PostMapping
-    @Secured(UserRole.UserRoleValues.User_ADMIN)
     public CategoryModel add(@RequestBody CategoryModel categoryModelFromForm) {
         return categoryService.addCategory(categoryModelFromForm);
     }
 
     @DeleteMapping("{categoryId}")
-    @Secured(UserRole.UserRoleValues.User_ADMIN)
+    @Secured(ROLE_ADMIN)
     public void delete(@PathVariable Long categoryId) {
         categoryService.delete(categoryId);
     }

@@ -8,7 +8,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public enum UserRole {
 
-    CLIENT(UserRoleValues.User_CLIENT), SELLER(UserRoleValues.User_SELLER), ADMIN(UserRoleValues.User_ADMIN);
+    CLIENT(UserRoleValues.ROLE_CLIENT), SELLER(UserRoleValues.ROLE_SELLER), ADMIN(UserRoleValues.ROLE_ADMIN);
 
     public final String value;
 
@@ -19,8 +19,8 @@ public enum UserRole {
     }
 
     public interface UserRoleValues {
-        String User_CLIENT = "CLIENT";
-        String User_SELLER = "SELLER";
-        String User_ADMIN = "ADMIN";
+        String ROLE_CLIENT = "ROLE_CLIENT";
+        String ROLE_SELLER = "ROLE_SELLER";
+        String ROLE_ADMIN = "ROLE_ADMIN";
     }
 }
