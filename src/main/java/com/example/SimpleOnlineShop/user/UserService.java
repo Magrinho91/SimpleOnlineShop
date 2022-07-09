@@ -2,6 +2,10 @@ package com.example.SimpleOnlineShop.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +29,8 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         final UserModel userModel =
                 userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(login));
+        final List<GrantedAuthority> permissions = List.of(new SimpleGrantedAuthority(userModel.getRole().value));
+
         return new User(
                 userModel.getLogin(),
                 userModel.getPassword(),
@@ -32,13 +38,12 @@ public class UserService implements UserDetailsService {
                 userModel.isAccountNonExpired(),
                 userModel.isCredentialsNonExpired(),
                 userModel.isAccountNonLocked(),
-                userModel.getAuthorities()
-                );
+                permissions
+        );
     }
 
 
-
-    public List<UserModel> getUsers(){
+    public List<UserModel> getUsers() {
         return userRepository.findAll();
     }
 
@@ -49,9 +54,19 @@ public class UserService implements UserDetailsService {
                 .lastName(userModelDto.getLastName())
                 .login(userModelDto.getLogin())
                 .password(encoder.encode(userModelDto.getPassword()))
-                .role(userModelDto.getRole())
+                .role(UserRole.fromValue(userModelDto.getRole()))
                 .build();
 
         userRepository.save(userToRegister);
+    }
+
+    public UserModel getLoggedAccount() {
+        final String login = getUserPrincipal().getUsername();
+        return userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User was not found by login."));
+    }
+
+    private User getUserPrincipal() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
     }
 }
