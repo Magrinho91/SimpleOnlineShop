@@ -13,9 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
 
-    @Autowired
     private final UserService userService;
-    @Autowired
     private final CategoryRepository categoryRepository;
 
 
@@ -24,17 +22,11 @@ public class CategoryService {
     }
 
     public CategoryModel addCategory(CategoryModel categoryModelFromForm) {
-        UserModel loggedUser = userService.getLoggedAccount();
 
         CategoryModel categoryModelToAdd = CategoryModel.builder()
                 .name(categoryModelFromForm.getName())
                 .build();
         return categoryRepository.save(categoryModelToAdd);
-//        if (loggedUser.getRole().value.equals(UserRole.UserRoleValues.User_ADMIN)) {
-//
-//        } else {
-//            throw new RoleException("Your role is not appropriate");
-//        }
     }
 
     public void delete(Long categoryId) {

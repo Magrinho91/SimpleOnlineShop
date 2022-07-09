@@ -1,6 +1,7 @@
 package com.example.SimpleOnlineShop.product;
 
 import com.example.SimpleOnlineShop.category.CategoryModel;
+import com.example.SimpleOnlineShop.user.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +22,22 @@ public class ProductModel {
     @Column
     private String name;
 
-    @OneToOne
-    private CategoryModel category;
+    @Column
+    private String categoryName;
 
     @Column
     private Double price;
+
+    @ManyToOne
+    private UserModel seller;
+
+    @OneToOne
+    private UserModel owner;
+
+    @Column
+    @Builder.Default
+    private Boolean isBought = false;
+
 
 
 

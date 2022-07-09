@@ -1,5 +1,6 @@
 package com.example.SimpleOnlineShop.category;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -10,11 +11,10 @@ import java.util.List;
 import static com.example.SimpleOnlineShop.user.UserRole.UserRoleValues.ROLE_ADMIN;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("categories")
 public class CategoryController {
 
-    @Autowired
     final private CategoryService categoryService;
 
     @GetMapping()
