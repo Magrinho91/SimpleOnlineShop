@@ -4,12 +4,11 @@ import com.example.SimpleOnlineShop.category.CategoryModel;
 import com.example.SimpleOnlineShop.category.CategoryRepository;
 import com.example.SimpleOnlineShop.user.UserModel;
 import com.example.SimpleOnlineShop.user.UserService;
+import com.example.SimpleOnlineShop.wallet.WalletModel;
+import com.example.SimpleOnlineShop.wallet.WalletRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.memory.UserAttribute;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,7 @@ public class ProductService {
     private ProductRepository productRepository;
     private UserService userService;
     private CategoryRepository categoryRepository;
+    private WalletRepository walletRepository;
 
     public List<ProductModel> getAllProducts() {
         return productRepository.findAll();
@@ -82,11 +82,20 @@ public class ProductService {
 
     public ProductModelDto buyProduct(ProductModelDto productToBuy) {
         UserModel loggedUser = userService.getLoggedAccount();
-
+        WalletModel walletModel = walletRepository.findByOwner(loggedUser).orElseThrow();
         ProductModel productBought = productRepository.findById(productToBuy.getId()).orElseThrow();
-        productBought.setIsBought(true);
-        productBought.setSeller(null);
-        productBought.setOwner(loggedUser);
+
+        if (walletModel.getMoneyAmount() < productBought.getPrice()) {
+            throw new RuntimeException("You don't have enough money");
+        } else {
+            productBought.setIsBought(true);
+            productBought.setSeller(null);
+            productBought.setOwner(loggedUser);
+
+            double leftMoney = walletModel.getMoneyAmount() - productBought.getPrice();
+            walletModel.setMoneyAmount(leftMoney);
+            walletRepository.save(walletModel);
+        }
 
         return ProductModelDto.of(productRepository.save(productBought));
     }
