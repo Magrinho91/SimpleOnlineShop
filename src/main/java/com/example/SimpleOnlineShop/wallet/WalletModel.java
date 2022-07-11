@@ -1,14 +1,12 @@
 package com.example.SimpleOnlineShop.wallet;
 
+import com.example.SimpleOnlineShop.user.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -23,4 +21,7 @@ public class WalletModel {
 
     @Column
     private Double moneyAmount;
+
+    @OneToOne
+    private UserModel owner;
 }

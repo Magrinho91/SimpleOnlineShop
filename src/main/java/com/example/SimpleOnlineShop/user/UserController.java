@@ -12,11 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("getAll")
-    public List<UserModel> getUsers(){
+    public List<UserModel> getUsers() {
         return userService.getUsers();
     }
 
@@ -26,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("loggedAccount")
-    public UserModel getLoggedAccount (){
+    public UserModel getLoggedAccount() {
         return userService.getLoggedAccount();
     }
 }
